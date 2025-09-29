@@ -28,28 +28,30 @@ VM boots -> PXE server -> TFTP server serves bootloader -> Downloads kernel & in
 
 ## 3. Install Required Services on Masternode
 
-```bash
+```
 sudo dnf install -y dhcp-server tftp-server syslinux httpd
 sudo systemctl enable --now dhcpd tftp httpd
+```
 
 ---
 
 ## 4. Configure TFTP
 TFTP serves the PXE boot files (pxelinux.0, kernel, initrd).
 
+```
 sudo mkdir -p /var/lib/tftpboot/pxelinux.cfg
 sudo cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
 sudo cp /usr/share/syslinux/menu.c32 /var/lib/tftpboot/
 sudo cp /path/to/centos9/vmlinuz /var/lib/tftpboot/
 sudo cp /path/to/centos9/initrd.img /var/lib/tftpboot/
+```
 
 ---
 
 ## 5. Configure DHCP for PXE Boot
 Edit /etc/dhcp/dhcpd.conf:
 
-dhcp
-Copy code
+```
 subnet 192.168.14.0 netmask 255.255.255.0 {
   range 192.168.14.200 192.168.14.250;
   option routers 192.168.14.1;
@@ -58,17 +60,20 @@ subnet 192.168.14.0 netmask 255.255.255.0 {
   next-server 192.168.14.161;  # PXE/TFTP server IP
   filename "pxelinux.0";
 }
+```
+
 Restart DHCP:
 
+```
 sudo systemctl restart dhcpd
+```
 
 ---
 
 ## 6. Configure PXE Boot Menu
 Create /var/lib/tftpboot/pxelinux.cfg/default:
 
-plaintext
-Copy code
+```
 DEFAULT menu.c32
 PROMPT 0
 TIMEOUT 50
@@ -100,17 +105,18 @@ LABEL security
   MENU LABEL Install Security Server
   KERNEL vmlinuz
   APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm5-security-ks.cfg
+```
 
 ---
 
 ## 7. Firewall & SELinux
 Allow PXE, TFTP, and HTTP through the firewall:
 
-bash
-Copy code
+```
 sudo firewall-cmd --add-service=http --permanent
 sudo firewall-cmd --add-service=tftp --permanent
 sudo firewall-cmd --reload
+```
 
 ---
 
