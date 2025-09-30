@@ -19,8 +19,8 @@ sudo mkdir -p /srv/samba/shared
 sudo useradd -M -s /sbin/nologin smbuser1
 sudo smbpasswd -a smbuser1
 ```
--M: no home directory
--s /sbin/nologin: no shell access
+-M: no home directory | 
+-s /sbin/nologin: no shell access | 
 smbpasswd -a: adds to samba password DB
 
 ---

@@ -37,7 +37,7 @@ sudo systemctl enable --now dhcpd tftp httpd
 
 ## 4. Configure TFTP
 TFTP serves the PXE boot files (pxelinux.0, kernel, initrd).
-
+See `HomeLabs001/docs/samba_setup.md` to see how to share files from windows to vm
 ```
 sudo mkdir -p /var/lib/tftpboot/pxelinux.cfg
 sudo cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
