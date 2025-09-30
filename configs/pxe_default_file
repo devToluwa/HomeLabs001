@@ -1,0 +1,36 @@
+DEFAULT menu.c32
+PROMPT 0
+TIMEOUT 50
+ONTIMEOUT local
+
+MENU TITLE PXE Boot Menu
+
+## LABEL server_label
+##   MENU Label label_name
+##   KERNEL vmlinuz
+##   APPEND intitrd=initrd.img init.ks=<your_server_ip>/path/to/your/kickstart
+
+LABEL web
+  MENU LABEL Install Web Server
+  KERNEL vmlinuz
+  APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm1-web-ks.cfg 
+
+LABEL db
+  MENU LABEL Install DB Server
+  KERNEL vmlinuz
+  APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm2-db-ks.cfg
+
+LABEL monitoring
+  MENU LABEL Install Monitoring Server
+  KERNEL vmlinuz
+  APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm3-monitoring-ks.cfg
+
+LABEL backup
+  MENU LABEL Install Backup Server
+  KERNEL vmlinuz
+  APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm4-backup-ks.cfg
+
+LABEL security
+  MENU LABEL Install Security Server
+  KERNEL vmlinuz
+  APPEND initrd=initrd.img inst.ks=http://192.168.14.161/kickstarts/vm5-security-ks.cfg

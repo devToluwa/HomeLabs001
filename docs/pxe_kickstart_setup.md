@@ -49,7 +49,7 @@ sudo cp /path/to/centos9/initrd.img /var/lib/tftpboot/
 ---
 
 ## 5. Configure DHCP for PXE Boot
-Edit /etc/dhcp/dhcpd.conf:
+Edit /etc/dhcp/dhcpd.conf file, but make sure to comment any subnet blocks there already:
 
 ```
 subnet 192.168.14.0 netmask 255.255.255.0 {
