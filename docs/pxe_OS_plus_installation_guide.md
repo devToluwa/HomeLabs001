@@ -54,6 +54,12 @@ Ensure HTTP is accessible for PXE-hosted packages:
 sudo firewall-cmd --add-service=http --permanent
 sudo firewall-cmd --reload
 ```
+AND
+```
+sudo firewall-cmd --add-port=67/udp --permanent
+sudo firewall-cmd --add-port=68/udp --permanent
+sudo firewall-cmd --reload
+```
 
 ---
 
