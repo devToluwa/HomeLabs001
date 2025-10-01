@@ -4,9 +4,6 @@
 This is still a work in progress
 PXE OS installation still not working, still fixing
 
-# Updates
-08-10-25: I am tired, nothing works :(
-
 
 ## 📖 Overview
 This project is a **homelab simulation** of how a company IT department might provision and manage multiple servers.  
