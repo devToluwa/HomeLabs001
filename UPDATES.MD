@@ -4,3 +4,11 @@
 DD-MM-YY
 02-08-25
 the time is 58 minutes after 12 nothing works, pxe is broken it keeps crashing i need help, i am going to sleep now :(
+
+| 02-08-25 - October 2nd 2025 |
+| :---------------- | 
+| * the time i 58 minutes after 12 nothing works, pxe is broken it keeps crashing i need help, i am going to sleep now :( |
+| * pxe is not serving over http |
+| * centos9 iso in my vm, but pxe wont pick it up |
+| * I am tired, I want to give up |
+
