@@ -1,4 +1,4 @@
-# Kickstart Deployment Testing
+# kIckstart Deployment Testing
 
 ## 1. Overview
 This document records the steps taken to ensure the Kickstart files for our VMs are available and accessible for automated deployment.
@@ -61,6 +61,7 @@ curl http://localhost/kickstarts/vm5-security-ks.cfg
 ## 7. Test Access from Network
 Test that the kickstart files are accessible from other machines. Replace 192.168.14.161 with your masternode VM IP:
 ```
+curl http://<server-ip-address/http-path/to-your-kickstart/file.cfg
 curl http://192.168.14.161/kickstarts/vm1-web-ks.cfg
 curl http://192.168.14.161/kickstarts/vm2-db-ks.cfg
 curl http://192.168.14.161/kickstarts/vm3-monitoring-ks.cfg
