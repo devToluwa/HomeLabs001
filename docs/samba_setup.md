@@ -29,7 +29,7 @@ smbpasswd -a: adds to samba password DB
 We make the samba user own the folder
 ```
 sudo chown -R smbuser1:smbuser1 /srv/samba/shared
-sudo chown -R 0775 /srv/samba/shared
+sudo chmod -R 0775 /srv/samba/shared
 ```
 
 ---
