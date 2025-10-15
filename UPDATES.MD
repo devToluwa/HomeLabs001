@@ -11,3 +11,10 @@
 | * centos9 iso in my vm, but pxe wont pick it up |
 | * I am tired, I want to give up |
 
+
+
+| October 15th 2025 |
+| :---------------- |
+| * I've decided to abandon anything PXE related |
+| * I've tried it's just not going to work |
+
