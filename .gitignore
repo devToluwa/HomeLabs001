@@ -1,7 +1,6 @@
 kickstart/
 configs/pxe_default_file
-docs/vmware_vm_setup_guide.md
-docs/update_IPs.md
-docs/pxe_kickstart_setup.md
-docs/pxe_OS_plus_installation_guide.md
 scripts/testing_kickstarts.sh
+docs/deprecated_docs
+notes/vm_stuff
+

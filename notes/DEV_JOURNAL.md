@@ -4,7 +4,7 @@ A running log of what I worked on, changed, or learned while building this proje
 
 ---
 
-## 🗓️ October 10th 2025 – Deprecating PXE Work
+## 🗓️ October 14th 2025 – Deprecating PXE Work
 ### 🧩 What I Did
 - Decided to stop working on PXE setup for now.
 - Created a `.gitignore` to exclude anything `PXE` related incase I want to revist the technology
@@ -18,6 +18,20 @@ A running log of what I worked on, changed, or learned while building this proje
 - Realized that I can come back to PXE later with better networking knowledge
 
 ---
+
+## 🗓️  October 16th 2025 – Deprecating PXE Work
+### 🧩 What I Did
+- cleaned up some files
+- made the 5 vms to control
+
+### 🧠 Why
+- we've given up on pxe :(
+
+### 💡 Lessons / Notes
+- not much learned
+- I dont know why but github is actinb weird i already pushed some stuff but the didnt get udated
+
+
 
 ## 🗓️ Next Date [Will always update this]
 
