@@ -1,6 +1,5 @@
 kickstart/
 configs/pxe_default_file
-scripts/testing_kickstarts.sh
 docs/deprecated_docs
 notes/vm_stuff
 
