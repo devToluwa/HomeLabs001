@@ -47,7 +47,7 @@ See the `docs/` folder for step-by-step guides and SOPs:
 ---
 
 ## 🚀 Workflow  
-1. **Configuration Management**: Ansible roles apply server-specific configs.  
+1. **Configuration Management**: Ansible ROles apply server-specific configs.  
 2. **Operations**: Documentation + scripts support day-to-day sysadmin tasks.
 3. **Application Simulation**: Although not fully decided on this but I will simulate a full working application on this setup.  
 4. **Scaling** (future): Future monitoring tools will be added to ensure seamless integration between servers.  
