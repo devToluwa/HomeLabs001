@@ -2,4 +2,4 @@ kickstart/
 configs/pxe_default_file
 docs/deprecated_docs
 notes/vm_stuff
-
+scripts/old_ssh_setup.sh
