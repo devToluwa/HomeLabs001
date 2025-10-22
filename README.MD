@@ -46,8 +46,7 @@ See the `docs/` folder for step-by-step guides and SOPs:
 
 ---
 
-## 🚀 Workflow
-1. **Provisioning**: PXE + Kickstart handles unattended VM installs.  
+## 🚀 Workflow  
 1. **Configuration Management**: Ansible roles apply server-specific configs.  
 2. **Operations**: Documentation + scripts support day-to-day sysadmin tasks.
 3. **Application Simulation**: Although not fully decided on this but I will simulate a full working application on this setup.  
@@ -65,5 +64,5 @@ See the `docs/` folder for step-by-step guides and SOPs:
 
 ## 🧑‍💻 Author
 Maintained by **Toluwa’s Homelabs**
-Learning project on PXE, Kickstart, VMWare, and Linux Server Automation.  
+Learning project on VMWare, and Linux Server Automation.  
 Part of the *Linux Company Server Simulation Project*
