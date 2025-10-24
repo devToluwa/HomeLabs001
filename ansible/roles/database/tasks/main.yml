@@ -1,2 +1,21 @@
 ---
 # tasks file for roles/database
+
+- name: Install MariaDB
+  dnf:
+    name: mariadb-server
+    state: present
+
+- name: Start and enable MairaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Create WordPress database
+  mysqldb:
+    name: wordpress
+    state: present
+    login_user: root
+    login_password"123456"
+
