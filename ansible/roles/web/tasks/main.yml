@@ -1,0 +1,20 @@
+---
+# tasks file for roles/web
+
+- name: Install Apache (httpd)
+  dnf:
+    name: httpd
+    state: present
+
+- name: Start and enable Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Open HTTP port in firewalld
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
