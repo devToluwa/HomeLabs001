@@ -1,20 +1,42 @@
 ---
 # tasks file for roles/web
 
-- name: Install Apache (httpd)
+- name: Install web server tools
   dnf:
-    name: httpd
+    name:
+      - httpd
+      - php
+      - php-mysqlnd
+      - git
     state: present
 
-- name: Start and enable Apache
+- name: Start and enable services
   service:
-    name: httpd
+    name: "{{ item }}"
     state: started
     enabled: yes
+  loop:
+    - httpd
 
-- name: Open HTTP port in firewalld
+- name: Open HTTP/HTTPS ports in firewalld
   firewalld:
-    service: http
+    service: "{{ item }}"
     permanent: yes
     state: enabled
-  notify: Reload firewalld
+  loop:
+    - http
+    - https
+  notify: Reload firwalld
+
+- name: Allow apache to serve content (SELinux)
+  seboolean:
+    name: httpd_enabled_homedirs
+    state: yes
+    persistnet: yes
+
+- name: Clone WordPress for app simulation
+  git:
+    repo: https://github/com/WordPress/WordPress.git
+    dest: /var/www/html/wordpress
+    version: master
+  becomme_user: apache
