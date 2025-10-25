@@ -6,16 +6,39 @@
     name: mariadb-server
     state: present
 
-- name: Start and enable MairaDB
+- name: Start and enable MariaDB
   service:
     name: mariadb
     state: started
     enabled: yes
 
+- name: Allow MariaDB to connect (SELinux)
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: yes
+    persistent: yes
+
 - name: Create WordPress database
-  mysqldb:
+  mysql_db:
     name: wordpress
     state: present
     login_user: root
-    login_password"123456"
+    login_password: "{{ mysql_root_password | default('securepassword') }}"
 
+- name: Create Wordpress database user
+  mysql_user:
+    name: wordpress_user
+    password: "{{ wp_db_password | default('securepassword') }}"
+    priv: 'wordpress.*:ALL'
+    host: 192.168.221.129 #Web Server IP
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password | default('securepassword') }}"
+
+- name: Open MariaDB port for web server
+  firewalld:
+    port: 3306/tcp
+    permanent: yes
+    state: enabled
+    source: 192.168.221.129 #Web server IP
+  notify: Reload firewalld

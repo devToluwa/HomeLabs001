@@ -10,13 +10,11 @@
       - git
     state: present
 
-- name: Start and enable services
+- name: Start and enable Apache
   service:
-    name: "{{ item }}"
+    name: httpd
     state: started
     enabled: yes
-  loop:
-    - httpd
 
 - name: Open HTTP/HTTPS ports in firewalld
   firewalld:
@@ -26,17 +24,17 @@
   loop:
     - http
     - https
-  notify: Reload firwalld
+  notify: Reload firewalld
 
 - name: Allow apache to serve content (SELinux)
   seboolean:
-    name: httpd_enabled_homedirs
+    name: httpd_enable_homedirs
     state: yes
-    persistnet: yes
+    persistent: yes
 
 - name: Clone WordPress for app simulation
   git:
-    repo: https://github/com/WordPress/WordPress.git
+    repo: https://github.com/WordPress/WordPress.git
     dest: /var/www/html/wordpress
     version: master
-  becomme_user: apache
+  become_user: apache

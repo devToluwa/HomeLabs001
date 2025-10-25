@@ -1,2 +1,21 @@
 ---
 # tasks file for roles/monitoring
+
+- name: Install monitoring tools
+  dnf:
+    name:
+      - cockpit
+    state: present
+
+- name: Start and enable Cockpit
+  service:
+    name: cockpit.socket
+    state: started
+    enabled: yes
+
+- name: Open Cockpit port in firewalld
+  firewalld:
+    port: 9090/tcp
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld   

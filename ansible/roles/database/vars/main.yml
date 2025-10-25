@@ -1,2 +1,5 @@
 ---
 # vars file for roles/database
+
+mysql_root_password: 123456
+wp_db_password: 123456

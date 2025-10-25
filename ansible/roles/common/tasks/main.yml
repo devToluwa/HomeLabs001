@@ -5,11 +5,10 @@
     name: epel-release
     state: present
 
-- name: Update all packages
+- name: Install Python MySQL module
   dnf:
-    name: "*"
-    state: latest
-    update_cache: yes
+    name: python3-PyMySQL
+    state: present
 
 - name: Install common services and tools
   dnf:
@@ -18,7 +17,7 @@
       - firewalld
       - sl
       - tree
-      - prometheus-node-exporter
+      - node_exporter
       - fail2ban
     state: present
 
@@ -33,3 +32,15 @@
     - node_exporter
     - fail2ban
 
+- name: Open Node exporter port in firewalld
+  firewalld:
+    port: 9100/tcp
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+
+- name: Update all packages
+  dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
