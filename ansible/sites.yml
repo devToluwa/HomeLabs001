@@ -12,11 +12,17 @@
   roles:
     - web
 
-- name: Configure monitoring server
+- name: Configure the database server
   hosts: database
   become: yes
   roles:
-    - database
+    -  database
+
+- name: Configure monitoring server
+  hosts: monitoring
+  become: yes
+  roles:
+    - monitoring
 
 - name: Configure backup server
   hosts: backup

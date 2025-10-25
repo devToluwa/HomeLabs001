@@ -1,0 +1,38 @@
+
+PLAY [Apply common setup to all servers] ***************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.131]
+ok: [192.168.221.132]
+ok: [192.168.221.130]
+ok: [192.168.221.129]
+ok: [192.168.221.133]
+
+TASK [common : Install EPEL for extra packages] ********************************
+changed: [192.168.221.129]
+changed: [192.168.221.133]
+changed: [192.168.221.132]
+changed: [192.168.221.131]
+changed: [192.168.221.130]
+
+TASK [common : Install Python MySQL module] ************************************
+ok: [192.168.221.131]
+ok: [192.168.221.132]
+ok: [192.168.221.133]
+ok: [192.168.221.130]
+ok: [192.168.221.129]
+
+TASK [common : Install common services and tools] ******************************
+fatal: [192.168.221.130]: FAILED! => {"changed": false, "failures": ["No package prometheus-node-exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+fatal: [192.168.221.129]: FAILED! => {"changed": false, "failures": ["No package prometheus-node-exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+fatal: [192.168.221.132]: FAILED! => {"changed": false, "failures": ["No package prometheus-node-exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+fatal: [192.168.221.133]: FAILED! => {"changed": false, "failures": ["No package prometheus-node-exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+fatal: [192.168.221.131]: FAILED! => {"changed": false, "failures": ["No package prometheus-node-exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+
+PLAY RECAP *********************************************************************
+192.168.221.129            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+192.168.221.130            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+192.168.221.131            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+192.168.221.132            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+192.168.221.133            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

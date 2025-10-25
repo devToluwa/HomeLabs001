@@ -1,2 +1,24 @@
 ---
 # tasks file for roles/security
+
+- name: Install security tools
+  dnf:
+    name:
+      - clamav
+    state: present
+
+- name: Update ClamAV database
+  command: freshclam
+  args:
+    creates: /var/lib/clamav/clamd.sock
+
+- name: Start and enable ClamAV
+  service:
+    name: clamd@scan
+    state: started
+    enabled: yes
+
+- name: Scan web server files
+  command: clamdscan /backups/web
+  args:
+    creates: /var/log/clamav/scan.log

@@ -1,2 +1,7 @@
 ---
 # handlers file for roles/database
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded

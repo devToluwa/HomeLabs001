@@ -1,2 +1,42 @@
 ---
 # tasks file for roles/backup
+
+- name: Install backup tools
+  dnf:
+    name:
+     - rsync
+     - cronie
+    state: present
+
+- name: Start and enable crond
+  service:
+    name: crond
+    state: started
+    enabled: yes
+
+- name: Create backup directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - /backups/web
+    - /backups/db
+
+- name: Set up daily backup of web files
+  cron:
+    name: "Backup web files"
+    minute: "0"
+    hour: "2"
+    job: "rsync -avz -e 'ssh -i /root/.ssh/id_rsa' root@192.168.221.129:/var/www/html"
+    user: root
+
+- name: Set up daily backup of database
+  cron:
+    name: "Backup database"
+    minute: "0"
+    hour: "2"
+    job: "mysqldump -h 192.168.221.130 -u wordpress_user -p{{ wp_db_password | default('wp_securepassword') }} wordpress | gzip > /backups/db/wordpress-$(date +\\%F).sql.gz"
+    user: root 

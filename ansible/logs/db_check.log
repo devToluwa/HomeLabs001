@@ -1,0 +1,25 @@
+ansible-playbook [core 2.14.18]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/toluwa/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/toluwa/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.23 (main, Aug 19 2025, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-11)] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+Using /etc/ansible/ansible.cfg as config file
+host_list declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+script declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+auto declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+Parsed /etc/ansible/hosts inventory source with ini plugin
+redirecting (type: modules) ansible.builtin.firewalld to ansible.posix.firewalld
+redirecting (type: modules) ansible.builtin.firewalld to ansible.posix.firewalld
+redirecting (type: modules) ansible.builtin.seboolean to ansible.posix.seboolean
+redirecting (type: modules) ansible.builtin.seboolean to ansible.posix.seboolean
+redirecting (type: modules) ansible.builtin.mysql_db to community.mysql.mysql_db
+redirecting (type: modules) ansible.builtin.mysql_user to community.mysql.mysql_user
+redirecting (type: modules) ansible.builtin.firewalld to ansible.posix.firewalld
+redirecting (type: modules) ansible.builtin.firewalld to ansible.posix.firewalld
+6 plays in sites.yml
+
+playbook: sites.yml
