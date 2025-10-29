@@ -2,5 +2,5 @@
 
 # vars file for roles/backup
 
-wp_db_pasword: 123456
+wp_db_pasword: "123456"
 

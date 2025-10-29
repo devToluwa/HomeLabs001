@@ -3,7 +3,9 @@
 
 - name: Install MariaDB
   dnf:
-    name: mariadb-server
+    name:
+      - mariadb-server
+      - mariadb
     state: present
 
 - name: Start and enable MariaDB
@@ -11,6 +13,44 @@
     name: mariadb
     state: started
     enabled: yes
+
+- name: Check if root password is already set
+  shell: mysql -u root -e "SELECT 1" >/dev/null 2>&1
+  register: root_access
+  ignore_errors: yes
+  changed_when: false
+
+- name: Set MariaDB root password for initial setup
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+  when: root_access.rc != 0
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Remove test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Ensure root uses mysql_native_password
+  mysql_user:
+    name: root
+    host: localhost
+    plugin: mysql_native_password
+    password: "{{ mysql_root_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
 
 - name: Allow MariaDB to connect (SELinux)
   seboolean:
@@ -23,17 +63,17 @@
     name: wordpress
     state: present
     login_user: root
-    login_password: "{{ mysql_root_password | default('securepassword') }}"
+    login_password: "{{ mysql_root_password }}"
 
-- name: Create Wordpress database user
+- name: Create WordPress database user
   mysql_user:
     name: wordpress_user
-    password: "{{ wp_db_password | default('securepassword') }}"
+    password: "{{ wp_db_password }}"
     priv: 'wordpress.*:ALL'
     host: 192.168.221.129 #Web Server IP
     state: present
     login_user: root
-    login_password: "{{ mysql_root_password | default('securepassword') }}"
+    login_password: "{{ mysql_root_password }}"
 
 - name: Open MariaDB port for web server
   firewalld:
