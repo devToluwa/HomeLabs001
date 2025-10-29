@@ -32,9 +32,23 @@
     state: yes
     persistent: yes
 
+- name: Set permissions for /var/www/html
+  file:
+    path: /var/www/html
+    owner: apache
+    group: apache
+    mode: '0755'
+    state: directory
+    recurse: yes
+
+- name: Restore SELinux context for /var/www/html
+  command: restorecon -Rv /var/www/html
+
+
 - name: Clone WordPress for app simulation
   git:
     repo: https://github.com/WordPress/WordPress.git
     dest: /var/www/html/wordpress
     version: master
+    force: yes
   become_user: apache
