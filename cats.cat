@@ -1,0 +1,271 @@
+---
+# tasks file for roles/backup
+
+- name: Install backup tools
+  dnf:
+    name:
+     - rsync
+     - cronie
+    state: present
+
+- name: Start and enable crond
+  service:
+    name: crond
+    state: started
+    enabled: yes
+
+- name: Create backup directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - /backups/web
+    - /backups/db
+
+- name: Set up daily backup of web files
+  cron:
+    name: "Backup web files"
+    minute: "0"
+    hour: "2"
+    job: "rsync -avz -e 'ssh -i /root/.ssh/id_rsa' root@192.168.221.129:/var/www/html"
+    user: root
+
+- name: Set up daily backup of database
+  cron:
+    name: "Backup database"
+    minute: "0"
+    hour: "2"
+    job: "mysqldump -h 192.168.221.130 -u wordpress_user -p{{ wp_db_password | default('wp_securepassword') }} wordpress | gzip > /backups/db/wordpress-$(date +\\%F).sql.gz"
+    user: root 
+---
+# tasks file for roles/common
+- name: Install EPEL for extra packages
+  dnf:
+    name: epel-release
+    state: present
+
+- name: Install Python MySQL module
+  dnf:
+    name: python3-PyMySQL
+    state: present
+
+- name: Install common services and tools
+  dnf:
+    name:
+      - chrony
+      - firewalld
+      - sl
+      - tree
+      - node_exporter
+      - fail2ban
+    state: present
+
+- name: Start and enable common services
+  service:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+  loop:
+    - chronyd
+    - firewalld
+    - node_exporter
+    - fail2ban
+
+- name: Open Node exporter port in firewalld
+  firewalld:
+    port: 9100/tcp
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld
+
+- name: Update all packages
+  dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+---
+# tasks file for roles/database
+
+- name: Install MariaDB
+  dnf:
+    name:
+      - mariadb-server
+      - mariadb
+    state: present
+
+- name: Start and enable MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Check if root password is already set
+  shell: mysql -u root -e "SELECT 1" >/dev/null 2>&1
+  register: root_access
+  ignore_errors: yes
+  changed_when: false
+
+- name: Set MariaDB root password for initial setup
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+  when: root_access.rc != 0
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Remove test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Ensure root uses mysql_native_password
+  mysql_user:
+    name: root
+    host: localhost
+    plugin: mysql_native_password
+    password: "{{ mysql_root_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Allow MariaDB to connect (SELinux)
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: yes
+    persistent: yes
+
+- name: Create WordPress database
+  mysql_db:
+    name: wordpress
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Create WordPress database user
+  mysql_user:
+    name: wordpress_user
+    password: "{{ wp_db_password }}"
+    priv: 'wordpress.*:ALL'
+    host: 192.168.221.129 #Web Server IP
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Open MariaDB port for web server
+  firewalld:
+    port: 3306/tcp
+    permanent: yes
+    state: enabled
+    source: 192.168.221.129 #Web server IP
+  notify: Reload firewalld
+---
+# tasks file for roles/monitoring
+
+- name: Install monitoring tools
+  dnf:
+    name:
+      - cockpit
+    state: present
+
+- name: Start and enable Cockpit
+  service:
+    name: cockpit.socket
+    state: started
+    enabled: yes
+
+- name: Open Cockpit port in firewalld
+  firewalld:
+    port: 9090/tcp
+    permanent: yes
+    state: enabled
+  notify: Reload firewalld   
+---
+# tasks file for roles/security
+
+- name: Install security tools
+  dnf:
+    name:
+      - clamav
+    state: present
+
+- name: Update ClamAV database
+  command: freshclam
+  args:
+    creates: /var/lib/clamav/clamd.sock
+
+- name: Start and enable ClamAV
+  service:
+    name: clamd@scan
+    state: started
+    enabled: yes
+
+- name: Scan web server files
+  command: clamdscan /backups/web
+  args:
+    creates: /var/log/clamav/scan.log
+---
+# tasks file for roles/web
+
+- name: Install web server tools
+  dnf:
+    name:
+      - httpd
+      - php
+      - php-mysqlnd
+      - git
+    state: present
+
+- name: Start and enable Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Open HTTP/HTTPS ports in firewalld
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - http
+    - https
+  notify: Reload firewalld
+
+- name: Allow apache to serve content (SELinux)
+  seboolean:
+    name: httpd_enable_homedirs
+    state: yes
+    persistent: yes
+
+- name: Set permissions for /var/www/html
+  file:
+    path: /var/www/html
+    owner: apache
+    group: apache
+    mode: '0755'
+    state: directory
+    recurse: yes
+
+- name: Restore SELinux context for /var/www/html
+  command: restorecon -Rv /var/www/html
+
+
+- name: Clone WordPress for app simulation
+  git:
+    repo: https://github.com/WordPress/WordPress.git
+    dest: /var/www/html/wordpress
+    version: master
+    force: yes
+  become_user: apache

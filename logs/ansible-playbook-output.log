@@ -1,0 +1,203 @@
+
+PLAY [Apply common setup to all servers] ***************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.133]
+ok: [192.168.221.130]
+ok: [192.168.221.129]
+ok: [192.168.221.132]
+ok: [192.168.221.131]
+
+TASK [common : Install EPEL for extra packages] ********************************
+ok: [192.168.221.129]
+ok: [192.168.221.132]
+ok: [192.168.221.133]
+ok: [192.168.221.131]
+ok: [192.168.221.130]
+
+TASK [common : Install Python MySQL module] ************************************
+ok: [192.168.221.129]
+ok: [192.168.221.130]
+ok: [192.168.221.132]
+ok: [192.168.221.131]
+ok: [192.168.221.133]
+
+TASK [common : Install common services and tools] ******************************
+ok: [192.168.221.130]
+ok: [192.168.221.131]
+ok: [192.168.221.132]
+ok: [192.168.221.133]
+ok: [192.168.221.129]
+
+TASK [common : Start and enable common services] *******************************
+ok: [192.168.221.132] => (item=chronyd)
+ok: [192.168.221.133] => (item=chronyd)
+ok: [192.168.221.130] => (item=chronyd)
+ok: [192.168.221.131] => (item=chronyd)
+ok: [192.168.221.129] => (item=chronyd)
+ok: [192.168.221.133] => (item=firewalld)
+ok: [192.168.221.130] => (item=firewalld)
+ok: [192.168.221.132] => (item=firewalld)
+ok: [192.168.221.129] => (item=firewalld)
+ok: [192.168.221.131] => (item=firewalld)
+ok: [192.168.221.132] => (item=node_exporter)
+ok: [192.168.221.130] => (item=node_exporter)
+ok: [192.168.221.133] => (item=node_exporter)
+ok: [192.168.221.131] => (item=node_exporter)
+ok: [192.168.221.129] => (item=node_exporter)
+ok: [192.168.221.132] => (item=fail2ban)
+ok: [192.168.221.130] => (item=fail2ban)
+ok: [192.168.221.131] => (item=fail2ban)
+ok: [192.168.221.133] => (item=fail2ban)
+ok: [192.168.221.129] => (item=fail2ban)
+
+TASK [common : Open Node exporter port in firewalld] ***************************
+ok: [192.168.221.132]
+ok: [192.168.221.130]
+ok: [192.168.221.133]
+ok: [192.168.221.131]
+ok: [192.168.221.129]
+
+TASK [common : Update all packages] ********************************************
+ok: [192.168.221.133]
+ok: [192.168.221.129]
+ok: [192.168.221.131]
+ok: [192.168.221.130]
+ok: [192.168.221.132]
+
+PLAY [Configure web server] ****************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.129]
+
+TASK [web : Install web server tools] ******************************************
+ok: [192.168.221.129]
+
+TASK [web : Start and enable Apache] *******************************************
+ok: [192.168.221.129]
+
+TASK [web : Open HTTP/HTTPS ports in firewalld] ********************************
+ok: [192.168.221.129] => (item=http)
+ok: [192.168.221.129] => (item=https)
+
+TASK [web : Allow Apache to connect to DB (SELinux)] ***************************
+ok: [192.168.221.129]
+
+TASK [web : Clone WordPress (force if needed)] *********************************
+ok: [192.168.221.129]
+
+TASK [web : Set ownership for /var/www/html] ***********************************
+ok: [192.168.221.129]
+
+TASK [web : Set file permissions 644] ******************************************
+changed: [192.168.221.129]
+
+TASK [web : Set directory permissions 755] *************************************
+changed: [192.168.221.129]
+
+TASK [web : Restore SELinux context] *******************************************
+changed: [192.168.221.129]
+
+TASK [web : Configure wp-config.php] *******************************************
+ok: [192.168.221.129]
+
+PLAY [Configure the database server] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.130]
+
+TASK [database : Install MariaDB] **********************************************
+ok: [192.168.221.130]
+
+TASK [database : Start and enable MariaDB] *************************************
+ok: [192.168.221.130]
+
+TASK [database : Check if root password is already set] ************************
+ok: [192.168.221.130]
+
+TASK [database : Set MariaDB root password for initial setup] ******************
+skipping: [192.168.221.130]
+
+TASK [database : Remove anonymous users] ***************************************
+ok: [192.168.221.130]
+
+TASK [database : Remove test database] *****************************************
+ok: [192.168.221.130]
+
+TASK [database : Ensure root uses mysql_native_password] ***********************
+ok: [192.168.221.130]
+
+TASK [database : Allow MariaDB to connect (SELinux)] ***************************
+ok: [192.168.221.130]
+
+TASK [database : Create WordPress database] ************************************
+ok: [192.168.221.130]
+
+TASK [database : Create WordPress database user] *******************************
+ok: [192.168.221.130]
+
+TASK [database : Open MariaDB port for web server] *****************************
+ok: [192.168.221.130]
+
+PLAY [Configure monitoring server] *********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.131]
+
+TASK [monitoring : Install monitoring tools] ***********************************
+ok: [192.168.221.131]
+
+TASK [monitoring : Start and enable Cockpit] ***********************************
+ok: [192.168.221.131]
+
+TASK [monitoring : Open Cockpit port in firewalld] *****************************
+ok: [192.168.221.131]
+
+PLAY [Configure backup server] *************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.132]
+
+TASK [backup : Install backup tools] *******************************************
+ok: [192.168.221.132]
+
+TASK [backup : Start and enable crond] *****************************************
+ok: [192.168.221.132]
+
+TASK [backup : Create backup directories] **************************************
+ok: [192.168.221.132] => (item=/backups/web)
+ok: [192.168.221.132] => (item=/backups/db)
+
+TASK [backup : Set up daily backup of web files] *******************************
+ok: [192.168.221.132]
+
+TASK [backup : Set up daily backup of database] ********************************
+ok: [192.168.221.132]
+
+PLAY [Configure security server] ***********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.221.133]
+
+TASK [security : Install security tools] ***************************************
+ok: [192.168.221.133]
+
+TASK [security : Update ClamAV database] ***************************************
+changed: [192.168.221.133]
+
+TASK [security : Start and enable ClamAV] **************************************
+ok: [192.168.221.133]
+
+TASK [security : Ensure /backups/web exists] ***********************************
+ok: [192.168.221.133]
+
+TASK [security : Scan web server files] ****************************************
+changed: [192.168.221.133]
+
+PLAY RECAP *********************************************************************
+192.168.221.129            : ok=18   changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.221.130            : ok=18   changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+192.168.221.131            : ok=11   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.221.132            : ok=13   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.221.133            : ok=13   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
