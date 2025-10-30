@@ -1,24 +1,39 @@
 ---
 # tasks file for roles/security
-
+# Make all tasks run as root
 - name: Install security tools
   dnf:
     name:
       - clamav
+      - clamav-freshclam
     state: present
+  become: yes
 
 - name: Update ClamAV database
   command: freshclam
   args:
     creates: /var/lib/clamav/clamd.sock
+  become: yes
 
 - name: Start and enable ClamAV
   service:
     name: clamd@scan
     state: started
     enabled: yes
+  become: yes
+
+- name: Ensure /backups/web exists
+  file:
+    path: /backups/web
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
 
 - name: Scan web server files
   command: clamdscan /backups/web
   args:
     creates: /var/log/clamav/scan.log
+  become: yes
+

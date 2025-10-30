@@ -60,16 +60,16 @@
 
 - name: Create WordPress database
   mysql_db:
-    name: wordpress
+    name: "{{ wp_db_name }}"
     state: present
     login_user: root
     login_password: "{{ mysql_root_password }}"
 
 - name: Create WordPress database user
   mysql_user:
-    name: wordpress_user
+    name: "{{ wp_db_user }}"
     password: "{{ wp_db_password }}"
-    priv: 'wordpress.*:ALL'
+    priv: '{{ wp_db_name }}.*:ALL'
     host: 192.168.221.129 #Web Server IP
     state: present
     login_user: root
@@ -77,8 +77,9 @@
 
 - name: Open MariaDB port for web server
   firewalld:
-    port: 3306/tcp
+    rich_rule: "rule family=ipv4 source address=192.168.221.129 port port=3306 protocol=tcp accept"
+    zone: public
     permanent: yes
     state: enabled
-    source: 192.168.221.129 #Web server IP
+    immediate: yes
   notify: Reload firewalld
