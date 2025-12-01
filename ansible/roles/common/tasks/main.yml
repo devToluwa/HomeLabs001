@@ -19,6 +19,7 @@
       - tree
       - node_exporter
       - fail2ban
+      - cockpit
     state: present
 
 - name: Start and enable common services
@@ -31,12 +32,16 @@
     - firewalld
     - node_exporter
     - fail2ban
-
-- name: Open Node exporter port in firewalld
+    - cockpit.socket
+	
+- name: Open required ports in firewalld
   firewalld:
-    port: 9100/tcp
+    port: "{{ item }}" 
     permanent: yes
     state: enabled
+  loop:
+    - 9100/tcp # Node exporter port
+    - 9090/tcp # Cockpit port
   notify: Reload firewalld
 
 - name: Update all packages

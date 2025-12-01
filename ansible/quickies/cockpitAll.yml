@@ -1,0 +1,29 @@
+- name: Configure cockput on all servers
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Install cockpit package
+      dnf:
+        name:
+          - cockpit
+        state: present
+
+    - name: Start and enable Cockpit
+      service:
+        name: cockpit.socket
+        state: started
+        enabled: yes
+ 
+    - name: Open Cockpit port in firewalld
+      firewalld:
+        port: 9090/tcp
+        permanent: yes
+        state: enabled
+      notify: Reload firewalld
+
+  handlers:
+    - name: Reload firewalld
+      service:
+        name: firewalld
+        state: reloaded
