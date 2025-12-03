@@ -10,13 +10,17 @@ CLIENT: 192.168.123.002
 
 ## Step 2 - Create the folders you want to share
 Example shared directory
-`sudo mkdir -p /home/toluwa/nfs_share`
-`sudo chmod 755 /home/toluwa/nfs_share`
+```
+sudo mkdir -p /home/toluwa/nfs_share
+sudo chmod 755 /home/toluwa/nfs_share
+```
 
 ## Step 3 - Configure NFS exports
 edit the `/etc/exports` or add it, cause it might not be there
-`sudo vi /etc/exports`
-`/home/toluwa/nfs_share 192.168.123.002(rw,sync,no_root_squash)`
+```
+sudo vi /etc/exports
+/home/toluwa/nfs_share 192.168.123.002(rw,sync,no_root_squash)
+```
 
 General Format below
 `/path/to/share client.ip/24(options)`
@@ -32,11 +36,12 @@ General Format below
  - `-v` = verbose
 
 ## Step 6 - Open Firewall ports
-`sudo firewall-cmd --add-service=nfs --permanenet`
-`sudo firewall-cmd --add-service=mountd --permanent`
-`sudo firewall-cmd --add-service=rpc-bind --permanent`
-`sudo firewall-cmd --reload`
-
+```
+sudo firewall-cmd --add-service=nfs --permanenet
+sudo firewall-cmd --add-service=mountd --permanent
+sudo firewall-cmd --add-service=rpc-bind --permanen`
+sudo firewall-cmd --reload
+```
 🟢 ON THE CLIENT (192.168.123.002)
 
 ## Step 1 - Install NFS Packages
@@ -55,9 +60,11 @@ General format below
 ### NOTE: If you do this the server must be on because we are adding the mount point to the /etc/fstab
 if you do this enter the `/etc/fstab` and add the line below
 
-`vi /etc/fstab`
-`192.168.123.002:/home/toluwa/nfs_share  /mnt/nfs_shared   nfs   defaults   0 0`
-`client.ip/home/toluwa/nfs_share  /mnt/nfs_shared   nfs   defaults   0 0`
+```
+vi /etc/fstab
+192.168.123.002:/home/toluwa/nfs_share  /mnt/nfs_shared   nfs   defaults   0 0
+client.ip/home/toluwa/nfs_share  /mnt/nfs_shared   nfs   defaults   0 0
+```
 
 
 
