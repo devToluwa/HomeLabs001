@@ -24,13 +24,15 @@ put in your website content in the file below
 ## Step 6 - Create a Virtual Host Configuration
 `vi /etc/httpd/conf.d/your_site.conf`
 and paste the below in the above
-`<VirtualHost *:80>`
-    `ServerAdmin admin@example.com`
-    `DocumentRoot /var/www/html/your_site`
-    `ServerName your_site.local`
-    `ErrorLog /var/log/httpd/your_site-error.log`
-    `CustomLog /var/log/httpd/your_site-access.log combined`
-`</VirtualHost>`
+```
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    DocumentRoot /var/www/html/your_site
+    ServerName your_site.local
+    ErrorLog /var/log/httpd/your_site-error.log
+    CustomLog /var/log/httpd/your_site-access.log combined
+</VirtualHost>
+```
 save and exit
 
 ## Step 7 Restart Apache
