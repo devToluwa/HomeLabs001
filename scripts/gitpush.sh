@@ -1,52 +1,45 @@
 #!/bin/bash
-# File: ~/pushlab  (or put in /usr/local/bin/pushlab)
 
-# Colors
+# ──────────────────────────────
+# CONFIGURATION – CHANGE ONLY HERE
+# ──────────────────────────────
+TARGET_USER="toluwa"          # User that owns the repo
+REPO_FOLDER="HomeLabs001"     # ←←← YOUR FOLDER NAME GOES HERE
+BRANCH="main"                 # Change if you use master or another branch
+# ──────────────────────────────
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# If not running as toluwa, re-exec the script as toluwa
-if [ "$USER" != "toluwa" ] && [ "$(id -u)" -ne "$(id -u toluwa)" ]; then
-    echo -e "${YELLOW}Not running as toluwa. Switching to toluwa...${NC}"
-    echo "(You'll be asked for your password only if required)"
-    exec sudo -u toluwa bash "$0" "$@"
-    exit  # This line will never be reached
+# Auto-swwitch to the correct user if needed
+if [ "$USER" != "$TARGET_USER" ] && [ "$(id -u)" -ne "$(id -u "$TARGET_USER")" ]; then
+    echo -e "${YELLOW}Switching to $TARGET_USER...${NC}"
+    exec sudo -u "$TARGET_USER" bash "$0" "$@"
+    exit
 fi
 
-# Now we are 100% guaranteed to be toluwa
-clear
-echo -e "${GREEN}Logged in as toluwa — ready to push Homelabs!${NC}"
+echo -e "${GREEN}Pushing $REPO_FOLDER to Github as $TARGET_USER${NC}"
 echo
 
-# Change to the repo
-cd ~/HomeLabs001 || {
-    echo -e "${RED}Error: ~/Homelabs001 directory not found!${NC}"
-    exit 1
+# Go the the repository folder
+cd ~/"$REPO_FOLDER" || {
+    echo -e "${RED}ERROR: ~/$REPO_FOLDER not found!${NC}"
+    exit
 }
 
-# Ask for commit message (required)
+# Ask for commit message
 while true; do
-    read -p "What is your commit message? " commit_msg
+    read -p "Commit message: " commit_msg
     [ -n "$commit_msg" ] && break
-    echo -e "${YELLOW}Commit message cannot be empty!${NC}"
+    echo -e "${YELLOW}Message cannot be empty!${NC}"
 done
 
 echo
-echo "Adding all changes..."
 git add .
+git commit -m "$commit_msg" || echo -e "${YELLOW}No changes to commit${NC}"
+echo -e "${GREEN}Pushing to origin, branch = $BRANCH...${NC}"
+git push origin "$BRANCH"
 
-echo "Committing..."
-git commit -m "$commit_msg" || {
-    echo -e "${YELLOW}Nothing to commit (or commit failed). Still pushing if possible...${NC}"
-}
-
-echo "Pushing to GitHub (origin main)..."
-git push origin main
-
-if [ $? -eq 0 ]; then
-    echo -e "\n${GREEN}Successfully pushed to GitHub!${NC}"
-else
-    echo -e "\n${RED}Push failed — check the errors above${NC}"
-fi
+[ $? -eq 0 ] && echo -e "\n${GREEN}All done! Successfully pushed!${NC}" || echo -e "\n${RED}Push failed${NC}"
