@@ -1,0 +1,60 @@
+Wget version info: 
+------------------------------
+GNU Wget 1.21.1 built on linux-gnu.
+
+-cares +digest -gpgme +https +ipv6 +iri +large-file -metalink +nls 
++ntlm +opie +psl +ssl/gnutls 
+
+Wgetrc: 
+    /etc/wgetrc (system)
+Locale: 
+    /usr/share/locale 
+Compile: 
+    gcc -DHAVE_CONFIG_H -DSYSTEM_WGETRC="/etc/wgetrc" 
+    -DLOCALEDIR="/usr/share/locale" -I. -I../lib -I../lib 
+    -I/usr/include/p11-kit-1 -DHAVE_LIBGNUTLS -DNDEBUG -O2 -flto=auto 
+    -ffat-lto-objects -fexceptions -g -grecord-gcc-switches -pipe -Wall 
+    -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 
+    -Wp,-D_GLIBCXX_ASSERTIONS 
+    -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 
+    -fstack-protector-strong 
+    -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -march=x86-64-v2 
+    -mtune=generic -fasynchronous-unwind-tables 
+    -fstack-clash-protection -fcf-protection 
+Link: 
+    gcc -I/usr/include/p11-kit-1 -DHAVE_LIBGNUTLS -DNDEBUG -O2 
+    -flto=auto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches 
+    -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 
+    -Wp,-D_GLIBCXX_ASSERTIONS 
+    -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 
+    -fstack-protector-strong 
+    -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -march=x86-64-v2 
+    -mtune=generic -fasynchronous-unwind-tables 
+    -fstack-clash-protection -fcf-protection -Wl,-z,relro 
+    -Wl,--as-needed -Wl,-z,now 
+    -specs=/usr/lib/rpm/redhat/redhat-hardened-ld 
+    -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -lpcre2-8 -luuid 
+    -lidn2 -lnettle -lgnutls -lz -lpsl ftp-opie.o gnutls.o http-ntlm.o 
+    ../lib/libgnu.a 
+
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later
+<http://www.gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Originally written by Hrvoje Niksic <hniksic@xemacs.org>.
+Please send bug reports and questions to <bug-wget@gnu.org>. 
+------------------------------
+Created temporary cookie file /tmp/wget_sh_1Rzxyo
+--2025-12-10 16:31:16--  https://edelivery.oracle.com/ocom/softwareDownload?fileName=fmw_15.1.1.0.0_wls_generic.zip&token=R3pXU3d3WGRIaW1WVDZhU0pEYVh3ZyE6OiFmaWxlSWQ9MTIzMDg0OTgxJmZpbGVTZXRDaWQ9MTIwMDIzNCZyZWxlYXNlQ2lkcz0xMTczMTcyJmRvd25sb2FkVHlwZT05NTc2MSZhZ3JlZW1lbnRJZD0xMjM2ODYyMiZlbWFpbEFkZHJlc3M9b3NkY19ub25fc3NvX3VzZXJAb3JhY2xlLmNvbSZ1c2VyTmFtZT1FUEQtT1NEQ19OT05fU1NPX1VTRVJAT1JBQ0xFLkNPTSZpcEFkZHJlc3M9MTQuMTM3LjE3NC4yMiZ1c2VyQWdlbnQ9TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0My4wLjAuMCBTYWZhcmkvNTM3LjM2IEVkZy8xNDMuMC4wLjAmY291bnRyeUNvZGU9VVMmZGxwQ2lkcz0xMjAyNzEyJmFwcGxpY2F0aW9uSWQ9OSZzc295bj1OJnF1ZXJ5U3RyaW5nPWRscF9jaWQsMTIwMjcxMiFyZWxfY2lkLDExNzMxNzI
+Resolving edelivery.oracle.com (edelivery.oracle.com)... 2.16.147.77, 2001:41a8:47:79c::366, 2001:41a8:47:785::366
+Connecting to edelivery.oracle.com (edelivery.oracle.com)|2.16.147.77|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://edelivery.oracle.com/wget/ocom/softwareDownload?fileName=fmw_15.1.1.0.0_wls_generic.zip&token=R3pXU3d3WGRIaW1WVDZhU0pEYVh3ZyE6OiFmaWxlSWQ9MTIzMDg0OTgxJmZpbGVTZXRDaWQ9MTIwMDIzNCZyZWxlYXNlQ2lkcz0xMTczMTcyJmRvd25sb2FkVHlwZT05NTc2MSZhZ3JlZW1lbnRJZD0xMjM2ODYyMiZlbWFpbEFkZHJlc3M9b3NkY19ub25fc3NvX3VzZXJAb3JhY2xlLmNvbSZ1c2VyTmFtZT1FUEQtT1NEQ19OT05fU1NPX1VTRVJAT1JBQ0xFLkNPTSZpcEFkZHJlc3M9MTQuMTM3LjE3NC4yMiZ1c2VyQWdlbnQ9TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0My4wLjAuMCBTYWZhcmkvNTM3LjM2IEVkZy8xNDMuMC4wLjAmY291bnRyeUNvZGU9VVMmZGxwQ2lkcz0xMjAyNzEyJmFwcGxpY2F0aW9uSWQ9OSZzc295bj1OJnF1ZXJ5U3RyaW5nPWRscF9jaWQsMTIwMjcxMiFyZWxfY2lkLDExNzMxNzI [following]
+--2025-12-10 16:31:18--  https://edelivery.oracle.com/wget/ocom/softwareDownload?fileName=fmw_15.1.1.0.0_wls_generic.zip&token=R3pXU3d3WGRIaW1WVDZhU0pEYVh3ZyE6OiFmaWxlSWQ9MTIzMDg0OTgxJmZpbGVTZXRDaWQ9MTIwMDIzNCZyZWxlYXNlQ2lkcz0xMTczMTcyJmRvd25sb2FkVHlwZT05NTc2MSZhZ3JlZW1lbnRJZD0xMjM2ODYyMiZlbWFpbEFkZHJlc3M9b3NkY19ub25fc3NvX3VzZXJAb3JhY2xlLmNvbSZ1c2VyTmFtZT1FUEQtT1NEQ19OT05fU1NPX1VTRVJAT1JBQ0xFLkNPTSZpcEFkZHJlc3M9MTQuMTM3LjE3NC4yMiZ1c2VyQWdlbnQ9TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0My4wLjAuMCBTYWZhcmkvNTM3LjM2IEVkZy8xNDMuMC4wLjAmY291bnRyeUNvZGU9VVMmZGxwQ2lkcz0xMjAyNzEyJmFwcGxpY2F0aW9uSWQ9OSZzc295bj1OJnF1ZXJ5U3RyaW5nPWRscF9jaWQsMTIwMjcxMiFyZWxfY2lkLDExNzMxNzI
+Reusing existing connection to edelivery.oracle.com:443.
+HTTP request sent, awaiting response... 401 Unauthorized
+
+Username/Password Authentication Failed.
+Removed temporary cookie file /tmp/wget_sh_1Rzxyo
