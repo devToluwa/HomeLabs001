@@ -1,0 +1,59 @@
+---
+
+- name: Install Dynatrace OneAgent on multiple VMs
+  hosts: all
+  become: yes
+  vars:
+    dyt_token_file: /home/toluwa/tokens/dynatracetoken.txt
+    dyt_install_dir: /home/toluwa/Dynatrace
+    dyt_installer: Dynatrace-OneAgent-Linux-x86-1.327.51.20251205-162230.sh
+    
+    
+    dyt_installer_src: /home/toluwa/HomeLabs001/Dynatrace/Dynatrace-OneAgent-Linux-x86-1.327.51.20251205-162230.sh
+    dyt_cert_src: /home/toluwa/HomeLabs001/Dynatrace/dt-root.cert.pem
+  tasks:
+
+    - name: Ensure Dynatrace folder exists, if not it creates one
+      file:
+        path: "{{ dyt_install_dir }}"
+        state: directory
+        mode:  '0755'
+    - name: Read Dynatrace token
+      slurp:
+        src: "{{ dyt_token_file }}"
+      delegate_to: localhost
+      run_once: true
+      become: false
+      register: dyna_token_raw
+
+    - name: Set token variable
+      set_fact:
+        dyt_token: "{{ dyna_token_raw.content | b64decode | trim }}"
+      no_log: true      
+
+    - name: Download Dynatrace OneAgent Installer
+      copy:
+        src: "{{ dyt_installer_src }}"
+        dest: "{{ dyt_install_dir }}/{{ dyt_installer }}"        
+        mode: '0755'
+
+    - name: Download Dynatrace root certificate
+      copy:
+        src: "{{ dyt_cert_src }}"
+        dest: "{{ dyt_install_dir }}/dt-root.cert.pem"
+        mode: '0644'
+
+    - name: Verify Dynatrace installer signature
+      shell: |
+        cd "{{ dyt_install_dir }}"
+        ( echo 'Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="--SIGNED-INSTALLER"'
+          echo
+          echo
+          echo '----SIGNED-INSTALLER'
+          cat {{ dyt_installer }} ) | openssl cms -verify -CAfile dt-root.cert.pem > /dev/null
+
+    - name: Install Dynatrace OneAgent
+      shell: |
+        /bin/sh "{{ dyt_install_dir }}/{{ dyt_installer }}" --set-monitoring-mode=fullstack --set-app-log-content-access=true
+      args:
+        chdir: "{{ dyt_install_dir }}"
