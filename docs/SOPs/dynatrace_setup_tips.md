@@ -1,6 +1,12 @@
-## Dynatrace Tips
+# Dynatrace Tips
 
-# Useful links
+## Tips
+to see if it's installed, do a
+```
+systemctl status oneagent
+```
+
+## Useful links
 1 https://docs.dynatrace.com/docs/discover-dynatrace/get-started
 
 just follow it :)
