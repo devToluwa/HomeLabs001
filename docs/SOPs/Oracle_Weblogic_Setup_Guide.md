@@ -8,19 +8,16 @@ WebLogic 15.1.1 requires **Java 17**
 # Check Java version
 java -version
 
-# If not installed, install OpenJDK 17
-sudo yum install java-17-openjdk-devel -y
+# download java 17 from their site download correct version
+https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+
+get that to your vm and install it like
+rpm -ivh {name_of_jar_rpm_you_downloaded.rpm}
 
 # Verify installation
 java -version
 ```
 
-Make sure JAVA_HOME is set (optional but recommended):
-
-```
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-export PATH=$JAVA_HOME/bin:$PATH
-```
 **Weblogic JAR file download**
 see: `https://www.oracle.com/middleware/technologies/weblogic-server-installers-downloads.html#`
 and use FTP, Samba, NFS, or any other way to get it into your server
